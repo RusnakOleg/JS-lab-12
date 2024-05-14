@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тригонометричні функції</title>
+  <script>
+    function isNumb(fld) {
+      var t = fld.value;
+      for (var i = 0; i < t.length; i++) {
+        var ch = t.charAt(i);
+        if ((ch < "0" || ch > "9") && !(ch == "," || ch == ".")) {
+          alert("Не цифра");
+          fld.focus();
+          fld.select();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function validateForm() {
+      var from = document.forms["trigForm"]["from"].value;
+      var to = document.forms["trigForm"]["to"].value;
+      var step = document.forms["trigForm"]["step"].value;
+      if (from == "" || to == "" || step == "") {
+        alert("Усі поля мають бути заповнені");
+        return false;
+      }
+      if (!isNumb(document.forms["trigForm"]["from"]) ||
+          !isNumb(document.forms["trigForm"]["to"]) ||
+          !isNumb(document.forms["trigForm"]["step"])) {
+        return false;
+      }
+      return true;
+    }
+
+    function openTable() {
+      if (!validateForm()) {
+        return;
+      }
+      var form = document.forms["trigForm"];
+      var func = form["func"].value;
+      var from = form["from"].value;
+      var to = form["to"].value;
+      var step = form["step"].value;
+      var url = "table.html?func=" + func + "&from=" + from + "&to=" + to + "&step=" + step;
+      window.open(url, "", "width=800,height=600");
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin: 0 auto;
+      width: 300px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    input[type="button"] {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Тригонометричні функції</h1>
+  <form name="trigForm">
+    <label for="func">Функція</label>
+    <select name="func" id="func">
+      <option value="sin">синус</option>
+      <option value="cos">косинус</option>
+      <option value="tan">тангенс</option>
+    </select>
+    <label for="from">початок</label>
+    <input type="text" name="from" onchange="isNumb(this)">
+    <label for="to">кінець</label>
+    <input type="text" name="to" onchange="isNumb(this)">
+    <label for="step">крок</label>
+    <input type="text" name="step" onchange="isNumb(this)">
+    <input type="button" value="Обчислити" onclick="openTable()">
+  </form>
+</body>
+</html>
