@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Облік надходження товарів</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 70%;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    form {
+      margin: 20px auto;
+      text-align: center;
+      width: 50%;
+    }
+    input[type="text"], select {
+      width: 60%;
+      padding: 5px;
+      margin: 5px 0;
+      box-sizing: border-box;
+    }
+    input[type="button"] {
+      margin-top: 10px;
+      padding: 10px;
+    }
+  </style>
+  <script>
+    function updateTable() {
+      var product = document.getElementById("product").value;
+      var newPrice = parseFloat(document.getElementById("price").value);
+      var newQuantity = parseInt(document.getElementById("quantity").value);
+
+      if (isNaN(newPrice) || isNaN(newQuantity)) {
+        alert("Введіть коректні значення для ціни та кількості.");
+        return;
+      }
+
+      var table = document.getElementById("goodsTable");
+      var rows = table.rows;
+
+      for (var i = 1; i < rows.length - 1; i++) {
+        if (rows[i].cells[0].innerHTML === product) {
+          rows[i].cells[1].innerHTML = newPrice;
+          rows[i].cells[2].innerHTML = newQuantity;
+          rows[i].cells[3].innerHTML = newPrice * newQuantity;
+          break;
+        }
+      }
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      var table = document.getElementById("goodsTable");
+      var rows = table.rows;
+      var total = 0;
+
+      for (var i = 1; i < rows.length - 1; i++) {
+        total += parseFloat(rows[i].cells[3].innerHTML);
+      }
+
+      rows[rows.length - 1].cells[1].innerHTML = total;
+    }
+
+    window.onload = function() {
+      calculateTotal();
+    }
+  </script>
+</head>
+<body>
+  <h1>Облік надходження товарів</h1>
+  <table id="goodsTable">
+    <thead>
+      <tr>
+        <th>Найменування товару</th>
+        <th>Ціна за одиницю</th>
+        <th>Кількість</th>
+        <th>Вартість</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Письмовий стіл</td>
+        <td>12000</td>
+        <td>5</td>
+        <td>60000</td>
+      </tr>
+      <tr>
+        <td>Кухонний стіл</td>
+        <td>8000</td>
+        <td>10</td>
+        <td>80000</td>
+      </tr>
+      <tr>
+        <td>Стілець</td>
+        <td>20</td>
+        <td>1200</td>
+        <td>24000</td>
+      </tr>
+      <tr>
+        <td>Книжкова шафа</td>
+        <td>14200</td>
+        <td>4</td>
+        <td>56800</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>ВСЬОГО</td>
+        <td colspan="3"></td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <form>
+    <label for="product">Товар.....</label>
+    <select id="product">
+      <option value="Письмовий стіл">Письмовий стіл</option>
+      <option value="Кухонний стіл">Кухонний стіл</option>
+      <option value="Стілець">Стілець</option>
+      <option value="Книжкова шафа">Книжкова шафа</option>
+    </select><br>
+    <label for="price">Ціна.......</label>
+    <input type="text" id="price"><br>
+    <label for="quantity">Кількість</label>
+    <input type="text" id="quantity"><br>
+    <input type="button" value="Ввести" onclick="updateTable()">
+  </form>
+</body>
+</html>
